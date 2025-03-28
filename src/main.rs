@@ -22,7 +22,9 @@ fn generate_commit_message() -> Result<String, String> {
     }
 
     // Get the raw suggestion command
-    let suggestion = run_command(r#"gh copilot suggest -t git "Suggest a git commit message based on staged changes" --shell-out"#)?;
+    let suggestion = run_command(
+        r#"gh copilot suggest -t git "Suggest a git commit message based on staged changes" --shell-out"#,
+    )?;
     if suggestion.is_empty() {
         return Err("No suggestion provided by gh copilot".to_string());
     }
@@ -78,7 +80,12 @@ fn main() {
                 };
                 println!("Suggested commit message: {:?}", msg);
 
-                if !Confirm::new().with_prompt("Use this commit message?").default(true).interact().unwrap() {
+                if !Confirm::new()
+                    .with_prompt("Use this commit message?")
+                    .default(true)
+                    .interact()
+                    .unwrap()
+                {
                     let custom_msg = dialoguer::Input::<String>::new()
                         .with_prompt("Enter custom commit message")
                         .interact()
